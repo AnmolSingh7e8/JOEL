@@ -1,4 +1,4 @@
-package `ITB 12a Col·leccions (II)`
+package `ITB 12b  Col·leccions (II)`
 import java.util.Scanner
 
 fun main(){
