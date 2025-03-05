@@ -23,12 +23,24 @@ fun main(){
             val massa = entrada[2].toDouble()
 
             planetas[Pair(nomPlaneta, distancia)] = massa
-            if(i == mediana){
-                distanciaMedia = distancia
-            }
         }
 
-        val planetaBuscat = planetas.filterValues { it == distanciaMedia }.keys
-        println(planetaBuscat.joinToString(" "))
+        val sortedPlanets = planetas.toList().sortedBy { it.first.second }
+        val medianDistanceIndex = sortedPlanets.size / 2
+        val medianDistance = sortedPlanets[medianDistanceIndex].first.second
+
+        // Filtrar planetas con la distancia mediana
+        val planetsWithMedianDistance = sortedPlanets.filter { it.first.second == medianDistance }
+
+        val resultat = if (planetsWithMedianDistance.size == 1) {
+            planetsWithMedianDistance[0].first.first
+        } else {
+            // Ordenar los planetas con la distancia mediana por tamaño y encontrar la mediana
+            val sortedBySize = planetsWithMedianDistance.sortedBy { it.second }
+            sortedBySize[sortedBySize.size / 2].first.first
+        }
+
+        println(resultat)
+
     }
 }
