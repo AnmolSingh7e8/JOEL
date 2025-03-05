@@ -24,12 +24,10 @@ fun main(){
 
         val guanyadorBuscat = scanner.nextLine() //Demano la capital del pais buscta
 
-        val guanyador = map.values.indexOfFirst { it.equals(guanyadorBuscat, ignoreCase = true) } //trobo el guanyador
-        if(guanyador == -1){
-            println(0)
-        } else {
-            println(guanyador+1)
-        }
+        val guanyador = map.filterValues { it == guanyadorBuscat }.keys
+        //trobo el guanyador
+         val contador = guanyador.size
+        println(contador)
     }
 
 }
