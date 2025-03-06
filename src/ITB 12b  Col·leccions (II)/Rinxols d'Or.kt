@@ -1,46 +1,51 @@
-package `ITB 12b  Col·leccions (II)`
-
-import java.util.LinkedHashMap
 import java.util.Scanner
 
-fun main(){
+// Defineix una classe de dades per representar un planeta amb nom, distància i massa.
+data class Planeta(val nombre: String, val distancia: Double, val masa: Double)
+
+fun main() {
     val scanner = Scanner(System.`in`)
 
+    // Llegeix el nombre de vegades que es repetirà el procés.
     val numVegades = scanner.nextInt()
 
-    repeat(numVegades){
+    repeat(numVegades) {
+        // Llegeix el nombre de planetes.
         val numPlanetas = scanner.nextInt()
         scanner.nextLine()
-        val planetas:MutableMap<Pair<String, Double>, Double> = LinkedHashMap()
 
-        val mediana = planetas.size / 2
-        var distanciaMedia = 0.0
+        val planetas = mutableListOf<Planeta>()
 
-        for(i in 0 .. planetas.size){
-            val entrada = scanner.nextLine().split(" ") // Llegim tota la línia
+        // Llegeix les dades dels planetes i les guarda a la llista.
+        for (i in 0 until numPlanetas) {
+            val entrada = scanner.nextLine().split(" ")
             val nomPlaneta = entrada[0]
             val distancia = entrada[1].toDouble()
             val massa = entrada[2].toDouble()
 
-            planetas[Pair(nomPlaneta, distancia)] = massa
+            planetas.add(Planeta(nomPlaneta, distancia, massa))
         }
 
-        val sortedPlanets = planetas.toList().sortedBy { it.first.second }
-        val medianDistanceIndex = sortedPlanets.size / 2
-        val medianDistance = sortedPlanets[medianDistanceIndex].first.second
+        // Ordena els planetes per distància.
+        val planetasOrdenats = planetas.sortedBy { it.distancia }
 
-        // Filtrar planetas con la distancia mediana
-        val planetsWithMedianDistance = sortedPlanets.filter { it.first.second == medianDistance }
+        // Troba la distància mediana.
+        val medianIndex = planetasOrdenats.size / 2
+        val medianDistance = planetasOrdenats[medianIndex].distancia
 
-        val resultat = if (planetsWithMedianDistance.size == 1) {
-            planetsWithMedianDistance[0].first.first
+        // Filtra els planetes amb la distància mediana.
+        val planetesAmbDistanciaMediana = planetasOrdenats.filter { it.distancia == medianDistance }
+
+        val resultat = if (planetesAmbDistanciaMediana.size == 1) {
+            // Si només hi ha un planeta amb la distància mediana, retorna el seu nom.
+            planetesAmbDistanciaMediana[0].nombre
         } else {
-            // Ordenar los planetas con la distancia mediana por tamaño y encontrar la mediana
-            val sortedBySize = planetsWithMedianDistance.sortedBy { it.second }
-            sortedBySize[sortedBySize.size / 2].first.first
+            // Si hi ha més d'un, ordena'ls per massa i tria el del mig.
+            val massaOrdenada = planetesAmbDistanciaMediana.sortedBy { it.masa }
+            massaOrdenada[massaOrdenada.size / 2].nombre
         }
 
+        // Imprimeix el nom del planeta seleccionat.
         println(resultat)
-
     }
 }
